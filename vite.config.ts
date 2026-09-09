@@ -11,5 +11,10 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // Lets `npm run dev` talk to a locally running `npm run dev:server`
+    // (server.js on port 3001) for testing the checkout API.
+    proxy: {
+      "/api": "http://localhost:3001",
+    },
   },
 });

@@ -5,11 +5,12 @@ and shipped on demand through Printify.
 
 ## Stack
 
-- Vite + React + TypeScript
+- Vite + React + TypeScript (the storefront)
 - Tailwind CSS
 - React Router
-- Vercel serverless functions (`/api`) for anything that needs to talk to
-  Printify or Stripe with a secret key
+- Express (`server.js`) — a single persistent Node process that serves the
+  built site and the checkout API together, built for Hostinger's Node.js
+  app hosting rather than serverless functions
 
 ## Getting started
 
@@ -18,9 +19,18 @@ npm install
 npm run dev
 ```
 
-The site runs at `http://localhost:5173`. The catalog in `src/data/products.ts`
-is a static seed list with placeholder pricing so the site is browsable and
-demoable before Printify is connected.
+The site runs at `http://localhost:5173`. The catalog in
+`src/data/products.json` is a static seed list with placeholder pricing so
+the site is browsable and demoable before Printify is connected.
+
+To test the checkout API locally too, run the Express server alongside Vite
+in a second terminal:
+
+```sh
+npm run dev:server
+```
+
+Vite proxies `/api` requests to it automatically (see `vite.config.ts`).
 
 ## Connecting Printify
 
@@ -32,37 +42,64 @@ demoable before Printify is connected.
 3. Create your products in Printify first (upload each design onto the
    blank product you want — notecards, journals, prints, whatever Printify's
    catalog offers). Printify assigns each one a product ID and variant IDs.
-4. Deploy `api/printify-products.ts` (it's already written) and hit
+4. Run the server (`npm run dev:server` locally, or once deployed) and hit
    `/api/printify-products` to see your real catalog as JSON.
 5. Copy each product's real Printify `id` into the matching entry's
-   `printifyProductId` field in `src/data/products.ts`, and swap in the real
-   price and image. This keeps the fast static catalog for browsing while
-   still routing real orders to the right Printify product.
+   `printifyProductId` field in `src/data/products.json`, and swap in the
+   real price and image. This keeps the fast static catalog for browsing
+   while still routing real orders to the right Printify product.
 
 ## Payment + order flow
 
-`api/create-order.ts` is scaffolded but intentionally refuses to place a real
-order until it's finished: it needs a Stripe charge wired in before the
-Printify order call. To finish it:
+`server.js` is scaffolded but intentionally refuses to place a real order
+until it's finished: it needs a Stripe charge wired in before the Printify
+order call. To finish it:
 
 1. Add `STRIPE_SECRET_KEY` (server) and `VITE_STRIPE_PUBLISHABLE_KEY` (client)
    to your environment.
-2. In `api/create-order.ts`, create and confirm a Stripe PaymentIntent for the
-   cart total before the `printifyFetch` call that creates the Printify
-   order. Only call Printify once the charge succeeds.
+2. In `server.js`, create and confirm a Stripe PaymentIntent for the cart
+   total inside the `/api/create-order` route, before the `printifyFetch`
+   call that creates the Printify order. Only call Printify once the charge
+   succeeds.
 3. Printify handles printing and shipping once the order lands in your shop;
    there's nothing else to run on your end per order.
 
 Until that's done, checkout will show a clear "not connected yet" message
 instead of silently failing or taking a payment that can't be fulfilled.
 
-## Deploying
+## Deploying to Hostinger
 
-The project is set up for Vercel (the `/api` folder maps to serverless
-functions automatically, `vercel.json` handles SPA routing). Push to GitHub,
-import the repo in Vercel, and add the environment variables from
-`.env.example` in the Vercel project settings. Netlify works too, but the
-`/api` functions would need to move to `netlify/functions` first.
+This is built for Hostinger's Node.js app hosting (available on Business and
+higher plans), which runs `server.js` as a persistent process instead of
+relying on serverless functions.
+
+1. **Get the code onto Hostinger.** Easiest is SSH (Business plans include
+   it — find your SSH credentials under hPanel → Advanced → SSH Access), then
+   `git clone https://github.com/jessdalrymp/Apricot-Tree.git` into your
+   account. Uploading a zip via File Manager works too if you'd rather avoid
+   the terminal.
+2. **Set up the Node.js app.** In hPanel, go to **Advanced → Node.js** →
+   Create Application. Point the application root at the folder you cloned
+   into, set the **application startup file** to `server.js`, and pick a
+   recent Node version (18 or newer).
+3. **Add environment variables.** The same Node.js app screen has an
+   environment variables section — add `PRINTIFY_API_KEY`,
+   `PRINTIFY_SHOP_ID`, `STRIPE_SECRET_KEY`, and `VITE_STRIPE_PUBLISHABLE_KEY`
+   there (the `VITE_` one needs to be present *before* the build step below,
+   since Vite bakes it into the built files rather than reading it at
+   runtime).
+4. **Install and build.** Use the "Run NPM Install" button in that same
+   panel, then open the SSH terminal (or hPanel's built-in one) and run
+   `npm run build` to produce `dist/`. Re-run this after every future code
+   change or product update.
+5. **Start (or restart) the app** from the Node.js panel. It'll bind to the
+   port Hostinger assigns automatically via `process.env.PORT`.
+6. **Point your domain at it.** If you created the app under your main
+   domain's document root it's live already; if it's in a subfolder or
+   subdomain, set that in the Node.js app's "Application URL" field.
+
+Re-run steps 4 and 6 (install + build + restart) any time you push new
+changes or update `src/data/products.json` with real Printify IDs.
 
 ## Product photography
 

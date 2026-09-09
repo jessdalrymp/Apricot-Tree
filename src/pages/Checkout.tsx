@@ -80,8 +80,8 @@ export default function Checkout() {
         <Field label="Country" name="country" required defaultValue="US" />
 
         <div className="rounded-xl bg-apricot-50 p-4 text-sm text-ink/70">
-          Payment and Printify order creation happen in <code>api/create-order.ts</code>, which
-          currently needs <code>PRINTIFY_API_KEY</code>, <code>PRINTIFY_SHOP_ID</code>, and{" "}
+          Payment and Printify order creation happen in <code>server.js</code>, which currently
+          needs <code>PRINTIFY_API_KEY</code>, <code>PRINTIFY_SHOP_ID</code>, and{" "}
           <code>STRIPE_SECRET_KEY</code> set as environment variables before real orders can go
           through. See the README's Printify section.
         </div>
