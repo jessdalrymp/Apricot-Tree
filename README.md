@@ -69,37 +69,52 @@ instead of silently failing or taking a payment that can't be fulfilled.
 
 ## Deploying to Hostinger
 
-This is built for Hostinger's Node.js app hosting (available on Business and
-higher plans), which runs `server.js` as a persistent process instead of
-relying on serverless functions.
+Hostinger's **Premium** plan is static-hosting only, no Node runtime, so
+`server.js` can't run there. That's fine for now: checkout can't process a
+real payment yet anyway (no Printify or Stripe keys), so there's nothing
+the Node backend would be doing today that a static upload can't cover.
 
-1. **Get the code onto Hostinger.** Easiest is SSH (Business plans include
-   it — find your SSH credentials under hPanel → Advanced → SSH Access), then
-   `git clone https://github.com/jessdalrymp/Apricot-Tree.git` into your
-   account. Uploading a zip via File Manager works too if you'd rather avoid
-   the terminal.
-2. **Set up the Node.js app.** In hPanel, go to **Advanced → Node.js** →
-   Create Application. Point the application root at the folder you cloned
-   into, set the **application startup file** to `server.js`, and pick a
-   recent Node version (18 or newer).
-3. **Add environment variables.** The same Node.js app screen has an
-   environment variables section — add `PRINTIFY_API_KEY`,
-   `PRINTIFY_SHOP_ID`, `STRIPE_SECRET_KEY`, and `VITE_STRIPE_PUBLISHABLE_KEY`
-   there (the `VITE_` one needs to be present *before* the build step below,
-   since Vite bakes it into the built files rather than reading it at
-   runtime).
-4. **Install and build.** Use the "Run NPM Install" button in that same
-   panel, then open the SSH terminal (or hPanel's built-in one) and run
-   `npm run build` to produce `dist/`. Re-run this after every future code
-   change or product update.
-5. **Start (or restart) the app** from the Node.js panel. It'll bind to the
-   port Hostinger assigns automatically via `process.env.PORT`.
-6. **Point your domain at it.** If you created the app under your main
-   domain's document root it's live already; if it's in a subfolder or
-   subdomain, set that in the Node.js app's "Application URL" field.
+### Now, on Premium: static upload
 
-Re-run steps 4 and 6 (install + build + restart) any time you push new
-changes or update `src/data/products.json` with real Printify IDs.
+1. Build it: `npm install && npm run build`. This produces a `dist/`
+   folder — that folder's *contents* (not the folder itself) are what go
+   on the server.
+2. In hPanel, open **File Manager** (or connect over SFTP) and go to
+   `public_html`. Clear out any placeholder `index.html` that's already
+   there.
+3. Upload everything from inside `dist/` into `public_html` — `index.html`,
+   the `assets/` folder, `images/`, and the `.htaccess` file. That last one
+   matters: without it, visiting `/shop` or `/about` directly (instead of
+   clicking there from the homepage) will 404, since this is a
+   single-page app and Apache needs to be told to hand every route to
+   `index.html`. File Manager sometimes hides dotfiles by default — turn on
+   "show hidden files" if you don't see it after uploading.
+4. Visit your domain. Browsing, the cart, and the contact form all work.
+   The checkout button will show an honest "not connected yet" message
+   instead of pretending to take a payment.
+5. Any time the catalog or code changes, repeat steps 1 and 3.
+
+### Later, once Printify + Stripe are ready: upgrade for real checkout
+
+Real checkout needs a server that can hold `PRINTIFY_API_KEY` and
+`STRIPE_SECRET_KEY` secrets and talk to those APIs, `server.js` in this repo
+already does that, but it needs an actual Node process to run in. That
+means Hostinger's **Business** plan (Node.js / "Web Apps" hosting) or
+another Node host such as Railway or Render.
+
+Once you're on a plan with Web Apps / Node.js hosting:
+
+1. Connect this GitHub repo through Hostinger's Web Apps deployment flow
+   (or `git clone` it over SSH if you're setting it up manually).
+2. Set the **application startup file** to `server.js`, Node version 18+.
+3. Add `PRINTIFY_API_KEY`, `PRINTIFY_SHOP_ID`, `STRIPE_SECRET_KEY`, and
+   `VITE_STRIPE_PUBLISHABLE_KEY` as environment variables in that same
+   panel (the `VITE_` one has to be set *before* `npm run build` runs,
+   since Vite bakes it into the built files rather than reading it live).
+4. Run `npm install` then `npm run build`, then start the app.
+
+From then on, `server.js` serves both the site and the checkout API from
+one process, no more separate static upload step.
 
 ## Product photography
 
