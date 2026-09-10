@@ -3,6 +3,15 @@
 A storefront for hand-designed stationery, notecards, and paper goods, printed
 and shipped on demand through Printify.
 
+**Current path:** [`wordpress-theme/`](./wordpress-theme) — a WordPress +
+WooCommerce theme, connected to Printify's own WooCommerce plugin for
+fulfillment. Start with `wordpress-theme/README.md`.
+
+The React/Vite build documented below was the first pass, before switching
+to WooCommerce for the Printify connection. It's kept here since it still
+works standalone and the branding/photography match, but WordPress is the
+one actually being set up.
+
 ## Stack
 
 - Vite + React + TypeScript (the storefront)

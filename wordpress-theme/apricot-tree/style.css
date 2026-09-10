@@ -1,0 +1,331 @@
+/*
+Theme Name: Apricot Tree
+Theme URI: https://github.com/jessdalrymp/Apricot-Tree
+Description: Storefront child theme for Apricot Tree Stationery, a WooCommerce shop for letterpress-style notecards, journals, and paper goods printed on demand through Printify.
+Author: Apricot Tree Stationery
+Template: storefront
+Version: 1.0.0
+Text Domain: apricot-tree
+*/
+
+/* ==========================================================================
+   Brand tokens
+   ========================================================================== */
+
+:root {
+  --apricot-50: #fff6ee;
+  --apricot-100: #ffe9d5;
+  --apricot-200: #ffd0a8;
+  --apricot-300: #ffb072;
+  --apricot-400: #ff8a3d;
+  --apricot-500: #f56a1f;
+  --apricot-600: #e04f14;
+  --apricot-700: #b93a12;
+  --apricot-800: #943017;
+  --apricot-900: #792a16;
+  --cream: #fdf8f1;
+  --ink: #2c241b;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+.site-title,
+.storefront-primary-navigation .site-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+a {
+  color: var(--apricot-700);
+}
+
+a:hover,
+a:focus {
+  color: var(--apricot-800);
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.site-header {
+  background-color: var(--cream);
+  border-bottom: 1px solid var(--apricot-200);
+}
+
+.site-branding .site-title,
+.site-branding .site-title a {
+  color: var(--apricot-800);
+  font-size: 1.75rem;
+  letter-spacing: -0.01em;
+}
+
+.site-branding .site-description {
+  color: var(--ink);
+  opacity: 0.7;
+  font-family: var(--font-sans);
+}
+
+.site-header-cart .cart-contents,
+.site-header .site-search a {
+  color: var(--ink);
+}
+
+.site-header-cart .cart-contents:hover {
+  color: var(--apricot-700);
+}
+
+#masthead .site-header-cart .cart-contents .count,
+.site-header-cart .count {
+  background-color: var(--apricot-600);
+  color: #fff;
+}
+
+.main-navigation ul li a {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.main-navigation ul li a:hover {
+  color: var(--apricot-700);
+}
+
+/* ==========================================================================
+   Buttons — "Add to cart", checkout, and general WooCommerce buttons
+   ========================================================================== */
+
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+a.button.alt,
+.woocommerce a.button.alt,
+.woocommerce #respond input#submit.alt,
+.woocommerce-cart .wc-proceed-to-checkout a.checkout-button,
+.woocommerce a.added_to_cart {
+  background-color: var(--apricot-600);
+  color: #fff;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border: none;
+  padding: 0.75rem 1.75rem;
+}
+
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover,
+a.button.alt:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce-cart .wc-proceed-to-checkout a.checkout-button:hover {
+  background-color: var(--apricot-700);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Shop / product grid
+   ========================================================================== */
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+.woocommerce ul.products li.product h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+
+.woocommerce ul.products li.product .price,
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+  color: var(--apricot-700);
+  font-weight: 600;
+}
+
+.woocommerce ul.products li.product {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  box-shadow: 0 1px 2px rgba(44, 36, 27, 0.06);
+}
+
+.woocommerce ul.products li.product img {
+  border-radius: 0.75rem;
+}
+
+.woocommerce span.onsale {
+  background-color: var(--apricot-600);
+}
+
+.star-rating span::before {
+  color: var(--apricot-500);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+#colophon,
+.site-footer {
+  background-color: var(--apricot-50);
+  border-top: 1px solid var(--apricot-200);
+  color: var(--ink);
+}
+
+#colophon a {
+  color: var(--apricot-700);
+}
+
+.apricot-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.apricot-footer__brand p:first-child {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--apricot-800);
+  margin: 0 0 0.25rem;
+}
+
+.apricot-footer__brand p {
+  margin: 0;
+  opacity: 0.75;
+  max-width: 32rem;
+}
+
+.apricot-footer__social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.apricot-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--apricot-700);
+  box-shadow: 0 1px 2px rgba(44, 36, 27, 0.08);
+}
+
+.apricot-footer__social a:hover {
+  background: var(--apricot-100);
+}
+
+.apricot-footer__social svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.apricot-footer__note {
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  margin-top: 1.5rem;
+}
+
+/* ==========================================================================
+   Homepage template
+   ========================================================================== */
+
+.apricot-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 782px) {
+  .apricot-hero {
+    grid-template-columns: 1fr 1fr;
+    padding: 4rem 1.5rem;
+  }
+}
+
+.apricot-hero h1 {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  color: var(--apricot-800);
+  margin: 0 0 1.25rem;
+}
+
+.apricot-hero p {
+  font-size: 1.125rem;
+  opacity: 0.75;
+  margin: 0 0 2rem;
+}
+
+.apricot-hero .button {
+  display: inline-block;
+  background-color: var(--apricot-600);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.85rem 2rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.apricot-hero .button:hover {
+  background-color: var(--apricot-700);
+  color: #fff;
+}
+
+.apricot-hero__image {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: var(--apricot-100);
+}
+
+.apricot-hero__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.apricot-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.apricot-section__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.apricot-section__heading h2 {
+  font-size: 1.75rem;
+  color: var(--apricot-800);
+  margin: 0;
+}
+
+.apricot-section__heading a {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
