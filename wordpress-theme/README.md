@@ -6,8 +6,13 @@ theme (so they're tested and just work), with the Apricot Tree branding,
 fonts, and real product photography layered on top, plus a custom homepage.
 
 This replaces the earlier React/Vite build in the rest of this repo as the
-main path, since Printify's official plugin connects straight to
+main path, since Printful's official plugin connects straight to
 WooCommerce and doesn't need any custom checkout code.
+
+Fulfillment runs through **Printful**. Printify and Gelato were both tried
+first and neither would connect, so anything in this repo still referring to
+Printify is leftover from that attempt and applies only to the retired React
+build.
 
 ## What's in this folder
 
@@ -58,18 +63,20 @@ panel on the right choose the **Apricot Tree Home** template, and publish.
 Then go to **Settings → Reading**, set "Your homepage displays" to **A
 static page**, and choose the Home page you just made.
 
-### 5. Printify
+### 5. Printful
 
-Install the official plugin: **Plugins → Add New**, search "Printify,"
-install and activate. It'll walk you through connecting your Printify
-account. Once connected, go back to Printify's own dashboard, open each
-product, and use **Publish → WooCommerce** to push it to your store, that's
-what actually creates the product listing here with the right variants and
-images.
+Install the official plugin: **Plugins → Add New**, search "Printful,"
+install and activate. It'll walk you through connecting your Printful
+account. Once connected, build each product in Printful's own dashboard and
+push it to the store from there, that's what creates the listing here with
+the right variants, mockups, and pricing.
+
+Product descriptions are written on the Printful side, not in WooCommerce,
+since Printful overwrites the WooCommerce copy each time it syncs a product.
 
 ### 6. Payment gateway
 
-WooCommerce needs a way to actually charge a card, Printify doesn't handle
+WooCommerce needs a way to actually charge a card, Printful doesn't handle
 that part. **Plugins → Add New**, search "WooCommerce Stripe Gateway" (or
 whichever processor you'd rather use, PayPal's official plugin works the
 same way), install, activate, and follow its setup to connect your Stripe

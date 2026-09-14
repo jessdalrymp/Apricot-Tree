@@ -1,16 +1,20 @@
 # Apricot Tree Stationery
 
 A storefront for hand-designed stationery, notecards, and paper goods, printed
-and shipped on demand through Printify.
+and shipped on demand.
+
+**Live site:** https://apricottreeshop.com
 
 **Current path:** [`wordpress-theme/`](./wordpress-theme) — a WordPress +
-WooCommerce theme, connected to Printify's own WooCommerce plugin for
+WooCommerce theme, connected to Printful's own WooCommerce plugin for
 fulfillment. Start with `wordpress-theme/README.md`.
 
-The React/Vite build documented below was the first pass, before switching
-to WooCommerce for the Printify connection. It's kept here since it still
-works standalone and the branding/photography match, but WordPress is the
-one actually being set up.
+The React/Vite build documented below was the first pass, before switching to
+WooCommerce. It's kept for the branding and photography, but it isn't
+deployed anywhere and its Printify integration code was never connected to a
+live account, Printify and Gelato were both tried and neither would link to
+the store. Treat every Printify reference below as belonging to that retired
+build.
 
 ## Stack
 

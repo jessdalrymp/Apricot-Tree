@@ -89,7 +89,7 @@ function apricot_tree_footer_content() {
 			<?php endforeach; ?>
 		</div>
 		<p class="apricot-footer__note">
-			&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> Apricot Tree Stationery. Made to order, shipped by Printify.
+			&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> Apricot Tree Stationery. Made to order, printed when you order it.
 		</p>
 	</div>
 	<?php
